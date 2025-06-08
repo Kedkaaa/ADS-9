@@ -5,6 +5,7 @@
 #include  <cstdlib>
 #include <algorithm>
 #include <stdexcept>
+#include <vector>
 #include  "tree.h"
 
 PMTree::Node::~Node() {
@@ -35,10 +36,12 @@ void PMTree::buildTree(Node* node, std::vector<char> remaining) {
     }
 }
 
-void dfs(PMTree::Node* node, std::vector<char>& path, std::vector<std::vector<char>>& result) {
+void dfs(PMTree::Node* node, std::vector<char>& path, \
+std::vector<std::vector<char>>& result) {
     if (node->value != '\0') path.push_back(node->value);
-    if (node->children.empty()) result.push_back(path);
-    else {
+    if (node->children.empty()) {
+        result.push_back(path);
+    } else {
         for (auto child : node->children) {
             dfs(child, path, result);
         }
