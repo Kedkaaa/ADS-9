@@ -1,10 +1,10 @@
 // Copyright 2022 NNTU-CS
 #include <stdio.h>
 #include <iostream>
+#include <vector>
 #include <chrono>
 #include <random>
 #include <fstream>
-#include <vector>
 #include <matplot/matplot.h>
 #include "tree.h"
 
@@ -55,7 +55,7 @@ void experiment() {
     }
 
     semilogy(ns, t1, "-o")->label("getAllPerms");
-    semilogy(ns, t2, "-x")->label("getPerm1");
+    semilogy(ns,t2, "-x")->label("getPerm1");
     semilogy(ns, t3, "-s")->label("getPerm2");
     legend();
     xlabel("n (size of alphabet)");
