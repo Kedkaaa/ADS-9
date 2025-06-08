@@ -4,21 +4,21 @@
 #include <vector>
 
 class PMTree {
-public:
+ public:
     struct Node {
         char value;
         std::vector<Node*> children;
 
-        Node(char v) : value(v) {}
+        explicit Node(char v) : value(v) {}
         ~Node();
     };
 
     Node* root;
 
-    PMTree(const std::vector<char>& elems);
+    explicit PMTree(const std::vector<char>& elems);
     ~PMTree();
 
-private:
+ private:
     void buildTree(Node* node, std::vector<char> remaining);
 };
 
