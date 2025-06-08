@@ -5,85 +5,44 @@
 #include <chrono>
 #include <random>
 #include <fstream>
-#include <matplot/matplot.h>
 #include "tree.h"
 
 using std::vector;
 using std::cout;
 using std::endl;
-using matplot::xlabel;
-using matplot::ylabel;
-using matplot::semilogy;
-using matplot::legend;
-using matplot::title;
-using matplot::save;
-
-void experiment() {
-    vector<double> ns;
-    vector<double> t1, t2, t3;
-
-    random_device rd;
-    mt19937 gen(rd());
-
-    for (int n = 1; n <= 8; ++n) {
-        vector<char> input;
-        for (int i = 0; i < n; ++i)
-            input.push_back('1' + i);
-
-        PMTree tree(input);
-        int total = factorial(n);
-        uniform_int_distribution<> dis(1, total);
-
-        int permIndex = dis(gen);
-
-        auto start = chrono::high_resolution_clock::now();
-        auto all = getAllPerms(tree);
-        auto end = chrono::high_resolution_clock::now();
-        t1.push_back(chrono::duration<double, milli>(end - start).count());
-
-        start = chrono::high_resolution_clock::now();
-        auto p1 = getPerm1(tree, permIndex);
-        end = chrono::high_resolution_clock::now();
-        t2.push_back(chrono::duration<double, milli>(end - start).count());
-
-        start = chrono::high_resolution_clock::now();
-        auto p2 = getPerm2(tree, permIndex);
-        end = chrono::high_resolution_clock::now();
-        t3.push_back(chrono::duration<double, milli>(end - start).count());
-
-        ns.push_back(n);
-    }
-
-    semilogy(ns, t1, "-o")->label("getAllPerms");
-    semilogy(ns,t2, "-x")->label("getPerm1");
-    semilogy(ns, t3, "-s")->label("getPerm2");
-    legend();
-    xlabel("n (size of alphabet)");
-    ylabel("Time (ms)");
-    title("Time vs n for permutation algorithms");
-    save("result/plot.png");
-}
 
 int main() {
-    vector<char> in = {'1','2','3'};
-    PMTree tree(in);
+    // Пример входного вектора
+    vector<char> input = {'1', '2', '3'};
 
-    cout << "All permutations:\n";
-    auto all = getAllPerms(tree);
-    for (const auto& perm : all) {
-        for (char c : perm) cout << c;
-        cout << '\n';
+    // Создаем дерево перестановок
+    PMTree tree(input);
+
+    // Получаем все перестановки
+    vector<vector<char>> allPerms = getAllPerms(tree);
+
+    // Вывод всех перестановок
+    cout << "Все перестановки:" << endl;
+    for (const auto& perm : allPerms) {
+        for (char c : perm)
+            cout << c;
+        cout << endl;
     }
 
-    cout << "Perm #1: ";
-    for (char c : getPerm1(tree, 1)) cout << c;
-    cout << "\n";
+    // Запрашиваем перестановки по номеру
+    int permNum1 = 1;
+    int permNum2 = 2;
 
-    cout << "Perm #2: ";
-    for (char c : getPerm2(tree, 2)) cout << c;
-    cout << "\n";
+    vector<char> p1 = getPerm1(tree, permNum1);
+    vector<char> p2 = getPerm2(tree, permNum2);
 
-    experiment();
-  
+    cout << "\nПерестановка #" << permNum1 << " (через getPerm1): ";
+    for (char c : p1) cout << c;
+    cout << endl;
+
+    cout << "Перестановка #" << permNum2 << " (через getPerm2): ";
+    for (char c : p2) cout << c;
+    cout << endl;
+
     return 0;
 }
