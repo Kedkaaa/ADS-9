@@ -1,4 +1,5 @@
 // Copyright 2022 NNTU-CS
+#include <stdio.h>
 #include <iostream>
 #include <chrono>
 #include <random>
@@ -7,8 +8,15 @@
 #include <matplot/matplot.h>
 #include "tree.h"
 
-using namespace std;
-using namespace matplot;
+using std::vector;
+using std::cout;
+using std::endl;
+using matplot::xlabel;
+using matplot::ylabel;
+using matplot::semilogy;
+using matplot::legend;
+using matplot::title;
+using matplot::save;
 
 void experiment() {
     vector<double> ns;
